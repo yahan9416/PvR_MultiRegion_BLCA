@@ -1,0 +1,15 @@
+library(MAESTRO)
+library(Seurat)
+load("/fs/home/hanya/Project/Bladder_cancer/MalEpi_analysis/Similarity/Correlation/Malignant_Downsample_data.RData")
+Correlation_result<<-NULL
+Calculate_correlation_between_malicell<-function(temp_cell_index){
+  #temp_exp=expmat[,match(malignant_cells[temp_cell_index],colnames(expmat))]
+  temp_exp=expmat[,temp_cell_index]
+  result=apply(matrix(temp_cell_index:length(malignant_cells)),1,function(pair_index){
+    unlist(cor.test(temp_exp,expmat[,pair_index]))[4]
+  })
+  result=cbind(colnames(expmat)[temp_cell_index],cbind(colnames(expmat)[temp_cell_index:length(malignant_cells)],result))
+  Correlation_result<<-rbind(Correlation_result,result)
+}
+result=apply(matrix(1:ncol(expmat)),1,Calculate_correlation_between_malicell)
+saveRDS(Correlation_result,file="Malignant_cell_correlation.rds")

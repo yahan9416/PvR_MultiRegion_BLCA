@@ -1,0 +1,13 @@
+library(CytoTRACE)
+library(MAESTRO)
+library(Seurat)
+
+Seurat_obj=readRDS("/fs/home/hanya/Project/Bladder_cancer/BLCA_process_Seurat_res.rds")
+expmat=GetAssayData(Seurat_obj)
+expmat=as.matrix(expmat)
+results <- CytoTRACE(expmat, ncores = 15, subsamplesize = 1000)
+pdf("test.pdf")
+plotCytoTRACE(results, phenotype = marrow_10x_pheno)
+plotCytoGenes(results, numOfGenes = 10)
+dev.off()
+saveRDS(results,file="/fs/home/hanya/Project/Bladder_cancer/BLCA_CytoTRACE_result.rds")

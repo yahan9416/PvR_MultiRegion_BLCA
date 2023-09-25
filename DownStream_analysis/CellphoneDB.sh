@@ -1,0 +1,1 @@
+nohup cellphonedb method statistical_analysis ./ZXWMaliEpi_Immu_seurat_meta.txt ./ZXWMaliEpi_Immu_seurat_RNA_expmat.txt --threads=10 --counts-data gene_name --project-name=ZXW_Mali_Imm_seurat >log.txt & 
